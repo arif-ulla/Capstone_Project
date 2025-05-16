@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('API Testing', () => {
+test.describe('AutomationExercise API Testing - 6 Test Cases', () => {
     test('TC_01 - GET all products list => Verify status code to be 200', async ({ request }) => {
         const response = await request.get('https://automationexercise.com/api/productsList');
         const responseBody = await JSON.parse(await response.text());

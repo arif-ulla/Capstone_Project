@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Automation Exercise Contact Us Page - 10 Test Cases', () => {
+test.describe('AutomationExercise Contact Us Page - 10 Test Cases', () => {
 
     test.beforeEach(async ({ page }) => {
         await page.goto('https://automationexercise.com/contact_us');

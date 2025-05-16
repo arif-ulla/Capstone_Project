@@ -1,15 +1,17 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
+test.describe('AutomationExercise Cart Page - 11 Test Cases', () => {
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('https://automationexercise.com/view_cart');
+  });
 
   test('TC_01 - Verify homepage title and URL', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await expect(page).toHaveTitle('Automation Exercise - Checkout');
     await expect(page).toHaveURL('https://automationexercise.com/view_cart');
   });
 
   test('TC_02 - Verify main menu on top', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await expect(page.getByRole('link', { name: ' Home' })).toBeVisible();
     await expect(page.getByRole('link', { name: ' Products' })).toBeVisible();
     await expect(page.getByRole('link', { name: ' Signup / Login' })).toBeVisible();
@@ -18,14 +20,12 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
   });
 
   test('TC_03 - Verify Cart is empty message', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await expect(page.getByText('Cart is empty! Click here to')).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Subscription' })).toBeVisible();
     await expect(page.getByRole('textbox', { name: 'Your email address' })).toBeVisible();
   });
 
   test('TC_04 - Verify add to cart and check if product is added to the cart', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await page.getByRole('link', { name: ' Products' }).click();
     await page.locator('.choose > .nav > li > a').first().click();
     await page.getByRole('button', { name: ' Add to cart' }).click();
@@ -38,7 +38,6 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
   });
 
   test('TC_05 - Add product, fill the form, and verify details in the cart', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await page.getByRole('link', { name: ' Products' }).click();
     await page.locator('.choose > .nav > li > a').first().click();
     await page.getByRole('button', { name: ' Add to cart' }).click();
@@ -62,7 +61,6 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
   });
 
   test('TC_06 - Add product and verify if able to Proceed to Checkout', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await page.getByRole('link', { name: ' Products' }).click();
     await page.locator('.choose > .nav > li > a').first().click();
     await page.getByRole('button', { name: ' Add to cart' }).click();
@@ -83,7 +81,6 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
   });
 
   test('TC_07 - Add a product and verify if Availability, Condition, and Brand are visible', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await page.getByRole('link', { name: ' Products' }).click();
     await page.locator('div:nth-child(5) > .product-image-wrapper > .choose > .nav > li > a').click();
     await expect(page.getByRole('heading', { name: 'Sleeveless  Dress' })).toBeVisible();
@@ -96,7 +93,6 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
   });
 
   test('TC_08 - Add a product and verify Login/Signup page while doing checkout', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await page.getByRole('link', { name: ' Products' }).click();
     await page.locator('div:nth-child(4) > .product-image-wrapper > .choose > .nav > li > a').click();
     await page.getByRole('button', { name: ' Add to cart' }).click();
@@ -109,7 +105,6 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
   });
 
   test('TC_09 - Verify signup field after checkout for new user', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await page.getByRole('link', { name: ' Products' }).click();
     await page.locator('div:nth-child(4) > .product-image-wrapper > .choose > .nav > li > a').click();
     await page.getByRole('button', { name: ' Add to cart' }).click();
@@ -131,7 +126,6 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
   });
 
   test('TC_10 - Able to navigate to Home and Products from Cart', async ({ page }) => {
-    await page.goto('https://automationexercise.com/view_cart');
     await page.getByRole('link', { name: ' Home' }).click();
     await expect(page).toHaveTitle('Automation Exercise');
     await expect(page).toHaveURL('https://automationexercise.com');
@@ -139,5 +133,15 @@ test.describe('Automation Exercise Cart Page - 10 Test Cases', () => {
     await page.getByRole('link', { name: ' Products' }).click();
     await expect(page).toHaveTitle('Automation Exercise - All Products');
     await expect(page).toHaveURL('https://automationexercise.com/products');
+  });
+
+  test('TC_11 - Navigate from Cart - Here link to products page', async ({ page }) => {
+    await expect(page.getByText('Cart is empty! Click here to')).toBeVisible();
+    await expect(page.getByRole('link', { name: 'here' })).toBeVisible();
+    await page.getByRole('link', { name: 'here' }).click();
+    await expect(page).toHaveTitle('Automation Exercise - All Products');
+    await page.locator('div:nth-child(4) > .product-image-wrapper > .choose > .nav > li > a').click();
+    await page.getByRole('button', { name: ' Add to cart' }).click();
+    await expect(page.getByText('Your product has been added')).toBeVisible();
   });
 });
